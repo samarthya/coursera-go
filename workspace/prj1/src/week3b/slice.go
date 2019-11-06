@@ -1,4 +1,4 @@
-package main
+package week3b
 
 import (
 	"bufio"
@@ -145,7 +145,6 @@ func Week3Assignment1() {
 					capacity++
 
 					listOfNumbers = sortArray(listOfNumbers)
-					fmt.Printf(" Array: ")
 					fmt.Println(listOfNumbers)
 					added = true
 					break
@@ -184,13 +183,4 @@ func Week3Assignment1() {
 
 		added = false
 	}
-}
-
-/**
- * Executes the week3 assignment.
- */
-func main() {
-	// Week3Assignment1()
-	myArr := make([]int, 0, 5)
-	fmt.Printf(" Length : %d , Capacity: %d\n", len(myArr), cap(myArr))
 }

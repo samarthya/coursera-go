@@ -5,7 +5,8 @@ import (
 
 	"samarthya.me/week1"
 	"samarthya.me/week2"
-	"samarthya.me/week3"
+	"samarthya.me/week3a"
+	"samarthya.me/week3b"
 )
 
 func readChoice(maxOption int) int {
@@ -27,12 +28,13 @@ func menu() int {
 	fmt.Println(" 2. Week 2 Assignment 1")
 	fmt.Println(" 3. Week 2 Assignment 2")
 	fmt.Println(" 4. Week 3 Assignment 1")
+	fmt.Println(" 5. Week 3 Assignment 1")
 	fmt.Println("------------------------")
 	fmt.Println(" 0. Exit.")
 	fmt.Println(" ************************ ")
 	fmt.Print(" Please enter your choice: ")
 
-	return readChoice(5)
+	return readChoice(6)
 }
 
 func main() {
@@ -53,7 +55,9 @@ func main() {
 		case 3:
 			week2.CheckInStringv2()
 		case 4:
-			week3.Week3Assignment1()
+			week3a.Week3Assignment1()
+		case 5:
+			week3b.Week3Assignment1()
 		default:
 			break
 		}
