@@ -48,6 +48,10 @@ func readInput(message string) string {
 	return valueT
 }
 
+func printArrayMetric(listOfNumbers []int) {
+	fmt.Printf(" LEN [%d] : CAP [%d]\n", len(listOfNumbers), cap(listOfNumbers))
+}
+
 /**
  * Write a program which prompts the user to enter integers and stores the integers in a sorted slice.
  * The program should be written as a loop. Before entering the loop, the program should create an empty
@@ -59,19 +63,21 @@ func readInput(message string) string {
  *
  * Submit your source code for the program, “slice.go”.
  **/
+
 // Week3Assignment1  Week 3 assignment 1
 func Week3Assignment1() {
 
 	// Define the original slice
-	listOfNumbers := make([]int, 3)
+	array := make([]int, 0, 3)
 
-	// Original capacity is 0 against the computer cap()
-	capacity := 0
+	listOfNumbers := array[0:]
 	added := false
 
 	fmt.Println(" Begins with")
-	fmt.Printf(" LEN and CAP: [%d] : [%d]\n", len(listOfNumbers), cap(listOfNumbers))
+	printArrayMetric(listOfNumbers)
+	fmt.Println(listOfNumbers)
 	fmt.Println("-------------------------")
+
 	for {
 		input := readInput(" Please enter the number: ")
 
@@ -86,12 +92,11 @@ func Week3Assignment1() {
 			continue
 		}
 
-		fmt.Printf(" LEN and CAP: [%d] : [%d]\n", len(listOfNumbers), capacity)
+		printArrayMetric(listOfNumbers)
 
-		if capacity == 0 {
+		if len(listOfNumbers) == 0 {
 			fmt.Println(" First element!!")
-			listOfNumbers[0] = number
-			capacity++
+			listOfNumbers = append(listOfNumbers, number)
 			fmt.Println(listOfNumbers)
 			continue
 		}
@@ -112,44 +117,33 @@ func Week3Assignment1() {
 		fmt.Printf(" Starting to look for position to add %d  in array\n", number)
 
 		for j := range listOfNumbers {
-			fmt.Printf(" Element: [%d] at index: %d Total element- %d\n", listOfNumbers[j], j, capacity)
+			fmt.Printf(" Element: [%d] at index: %d Total element- %d\n", listOfNumbers[j], j, len(listOfNumbers))
 
 			/**
 			 * Check against capacity is required to see which element is the last, as for
 			 * the initial state 0's prepopulated are also considered in capacity for cap()
 			 */
-			if j < capacity {
+			if j < len(listOfNumbers) {
 				fmt.Printf(" index -> %d\n", j)
 
 				if listOfNumbers[j] > number {
 					fmt.Printf(" Skipped [%d] > [%d]\n", listOfNumbers[j], number)
-
 					// Move to the next element in the array.
 					continue
 				}
 
-				// Check for element which is lesser than number is found so now we need to place it
-				// 1. Is there sufficient space in array.
-				//     - capacity < length means we can squeeze in elements.
-				// Capacity usually points to the last element.
-				// E.g. Capacity 1 means only one element and empty at index 1.
-				if capacity < len(listOfNumbers) {
+				if len(listOfNumbers) < cap(listOfNumbers) {
 					fmt.Printf(" Found [%d] < %d\n", listOfNumbers[j], number)
+					listOfNumbers = append(listOfNumbers, number)
 
-					// Adding it to the index -> Capacity (last element.)
-					listOfNumbers[capacity] = number
-
-					fmt.Printf(" Added [%d] at %d\n", number, capacity)
-
-					//Increase index.
-					capacity++
+					fmt.Printf(" Added [%d] at %d\n", number, len(listOfNumbers))
 
 					listOfNumbers = sortArray(listOfNumbers)
 					fmt.Printf(" Array: ")
 					fmt.Println(listOfNumbers)
 					added = true
 					break
-				} else if capacity == len(listOfNumbers) {
+				} else if cap(listOfNumbers) == len(listOfNumbers) {
 					/**
 					 * The last element can be less than the new element to be added.
 					 */
@@ -159,7 +153,6 @@ func Week3Assignment1() {
 					// Can be optimised.
 					listOfNumbers = sortArray(listOfNumbers)
 					added = true
-					capacity++
 					fmt.Println(listOfNumbers)
 					break
 				}
@@ -171,14 +164,9 @@ func Week3Assignment1() {
 		// Edge cases.
 		if !added {
 			fmt.Println(" No postion within the array can be used to add this element.")
-			if capacity < len(listOfNumbers) {
-				listOfNumbers[capacity] = number
-				fmt.Printf(" Added [%d] at %d\n", number, capacity)
-			} else if capacity == len(listOfNumbers) {
-				// No slot available at the new one.
-				listOfNumbers = append(listOfNumbers, number)
-			}
-			capacity++
+			// No slot available at the new one.
+			listOfNumbers = append(listOfNumbers, number)
+
 			fmt.Println(listOfNumbers)
 		}
 
@@ -190,7 +178,5 @@ func Week3Assignment1() {
  * Executes the week3 assignment.
  */
 func main() {
-	// Week3Assignment1()
-	myArr := make([]int, 0, 5)
-	fmt.Printf(" Length : %d , Capacity: %d\n", len(myArr), cap(myArr))
+	Week3Assignment1()
 }
