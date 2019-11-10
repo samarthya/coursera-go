@@ -71,7 +71,6 @@ func Week3Assignment1() {
 	array := make([]int, 0, 3)
 
 	listOfNumbers := array[0:]
-	added := false
 
 	fmt.Println(" Begins with")
 	printArrayMetric(listOfNumbers)
@@ -108,69 +107,9 @@ func Week3Assignment1() {
 		fmt.Println(" adding element.......")
 		//////////////////////////////////////////////////////////
 
-		/**
-		 * Range works with the length.
-		 * Issue is the default 3 elements are all populated with 0's
-		 * So length and capacity both are 3 even though no element
-		 * has been added.
-		 */
-		fmt.Printf(" Starting to look for position to add %d  in array\n", number)
-
-		for j := range listOfNumbers {
-			fmt.Printf(" Element: [%d] at index: %d Total element- %d\n", listOfNumbers[j], j, len(listOfNumbers))
-
-			/**
-			 * Check against capacity is required to see which element is the last, as for
-			 * the initial state 0's prepopulated are also considered in capacity for cap()
-			 */
-			if j < len(listOfNumbers) {
-				fmt.Printf(" index -> %d\n", j)
-
-				if listOfNumbers[j] > number {
-					fmt.Printf(" Skipped [%d] > [%d]\n", listOfNumbers[j], number)
-					// Move to the next element in the array.
-					continue
-				}
-
-				if len(listOfNumbers) < cap(listOfNumbers) {
-					fmt.Printf(" Found [%d] < %d\n", listOfNumbers[j], number)
-					listOfNumbers = append(listOfNumbers, number)
-
-					fmt.Printf(" Added [%d] at %d\n", number, len(listOfNumbers))
-
-					listOfNumbers = sortArray(listOfNumbers)
-					fmt.Printf(" Array: ")
-					fmt.Println(listOfNumbers)
-					added = true
-					break
-				} else if cap(listOfNumbers) == len(listOfNumbers) {
-					/**
-					 * The last element can be less than the new element to be added.
-					 */
-					listOfNumbers = append(listOfNumbers, number)
-
-					// After adding sort it
-					// Can be optimised.
-					listOfNumbers = sortArray(listOfNumbers)
-					added = true
-					fmt.Println(listOfNumbers)
-					break
-				}
-			} else {
-				break
-			}
-		} // Loop ends
-
-		// Edge cases.
-		if !added {
-			fmt.Println(" No postion within the array can be used to add this element.")
-			// No slot available at the new one.
-			listOfNumbers = append(listOfNumbers, number)
-
-			fmt.Println(listOfNumbers)
-		}
-
-		added = false
+		listOfNumbers = append(listOfNumbers, number)
+		listOfNumbers = sortArray(listOfNumbers)
+		fmt.Println(listOfNumbers)
 	}
 }
 
