@@ -202,7 +202,7 @@ func main() {
 		fromUser = strings.Trim(fromUser, "\n")
 
 		for i, v := range strings.Split(fromUser, " ") {
-			if i < 2 {
+			if i < 2 {	
 				commands = append(commands, strings.ToLower(v))
 				counts++
 			}
@@ -230,7 +230,7 @@ func main() {
 			}
 		} else {
 			fmt.Println(" Error: Enter Valid input please.")
-			fmt.Println(" Format: You need to provide two inputs after the prompt. E.g. cow speak\n")
+			fmt.Println(" Format: You need to provide two inputs after the prompt. E.g. cow speak")
 		}
 
 		// fmt.Printf("\n CAP(%d) LEN(%d)\n", cap(commands), len(commands))
