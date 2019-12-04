@@ -56,7 +56,7 @@ func NewPhilo(name int, leftCS *ChopS, rightCS *ChopS) *Philo {
 }
 
 // Each philo can send this as go routine.
-func (p Philo) request(wg *sync.WaitGroup, wgHost chan int, wgPermission chan int, respHost chan int) {
+func (p Philo) request(wg *sync.WaitGroup, wgHost chan int, wgPermission chan int) {
 
 	// While it has not eaten three times continue to request.
 	for p.eligible < 3 {
@@ -71,7 +71,6 @@ func (p Philo) request(wg *sync.WaitGroup, wgHost chan int, wgPermission chan in
 		p.dinnerTime()
 
 		p.eligible++
-		// respHost <- p.id
 	}
 
 	wg.Done()
@@ -112,11 +111,11 @@ func (p Philo) dinnerTime() {
 	}
 }
 
-func hostUp(chHost chan int, chPermission chan int, chResponse chan int) {
+func hostUp(chHost chan int, chPermission chan int) {
+
 	fmt.Println(" ### Host running and listening ###")
 
 	for {
-
 		val, ok := <-chHost
 
 		if ok == false {
@@ -141,7 +140,6 @@ func main() {
 
 	// wgPermission To grant eligibility
 	chPermission := make(chan int)
-	chResponse := make(chan int)
 
 	var CSticks []*ChopS
 	var philos []*Philo
@@ -162,11 +160,11 @@ func main() {
 	fmt.Print(" Diners problem\n")
 
 	// Do it only once.
-	go hostUp(chHost, chPermission, chResponse)
+	go hostUp(chHost, chPermission)
 
 	wg.Add(5)
 	for i := 0; i < 5; i++ {
-		go philos[i].request(&wg, chHost, chPermission, chResponse)
+		go philos[i].request(&wg, chHost, chPermission)
 	}
 	wg.Wait()
 	fmt.Println(" Done ")
